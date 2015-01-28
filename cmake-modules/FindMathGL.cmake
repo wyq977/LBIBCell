@@ -1,0 +1,25 @@
+# find MathGL2
+
+FIND_PATH(MATHGL_INCLUDE_DIR NAMES mgl2/mgl.h
+  PATHS
+  /opt/local/include
+  /usr/include
+  /usr/local/include
+)
+
+FIND_LIBRARY(MATHGL_LIB NAMES mgl
+  PATHS
+  /opt/local/lib
+  /usr/local/lib
+  /usr/lib
+)
+
+
+IF (MATHGL_INCLUDE_DIR AND MATHGL_LIB)
+  SET(MATHGL_FOUND TRUE)
+  MESSAGE(STATUS "MATHGL found")
+  MESSAGE(STATUS "MATHGL Include dirs:" ${MATHGL_INCLUDE_DIR})
+  MESSAGE(STATUS "MATHGL Library:" ${MATHGL_LIB})
+ELSE (MATHGL_INCLUDE_DIR AND MATHGL_LIB)
+  MESSAGE(STATUS "MATHGL was not found")
+ENDIF(MATHGL_INCLUDE_DIR AND MATHGL_LIB)

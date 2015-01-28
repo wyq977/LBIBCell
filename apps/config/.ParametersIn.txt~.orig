@@ -1,0 +1,12 @@
+#Global Parameter file
+CurrentIterations:	0
+Iterations:	10000
+ReportStep:	100
+SizeX:	200
+<<<<<<< HEAD
+SizeY:	100
+=======
+SizeY:	200
+>>>>>>> feature/biosolver
+tauFluid:	2.42
+CDESolvers:	CDESolverD2Q5	1.0

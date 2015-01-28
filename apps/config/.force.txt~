@@ -1,0 +1,8 @@
+#Force 0 {type=0 id1 id2 k l0}	spring between two nodes
+#Force 1 {type=1 id x y k l0}	anchor
+#Force 2 {type=2 id fx fy}	free force
+#Force 3 {type=3 id y k l0} 	horizontal slider
+#Force 4 {type=4 id x k l0} 	vertical slider
+#Force 5 {type=5 id1 id2 f}	constant force between two nodes
+#Force 6 {type=6 id1 id2 f}	same as type 5, but exclusively for membrane tension
+#Force 7 {type=7 id1 id2 k l0}	same as type 0, but exclusively for cell junctions
