@@ -11,29 +11,27 @@ matrix:
     - os: linux
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - boost-latest
           packages:
-            - g++-4.8
-            - gcc-4.8
-            - libboost-all-dev
-            - libvtk5-dev
+            - build-essential
+            - mesa-common-dev
+            - mesa-utils
+            - libosmesa6
+            - freeglut3-dev
             - cmake
+            - libvtk5-dev
             - doxygen
-      env:
-        - MATRIX_EVAL="CXX_COMPILER=g++-4.8"
+            - libboost-all-dev
+            - git
 
     
 
 before_install:
-  - eval "${MATRIX_EVAL}"
   - PARENTDIR=$(pwd)
   - mkdir $PARENTDIR/build
 
 install: 
   - cd $PARENTDIR/build
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER $PARENTDIR
+  - cmake -DCMAKE_BUILD_TYPE=Debug $PARENTDIR
 
 script:
   - make
