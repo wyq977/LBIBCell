@@ -85,8 +85,8 @@ before_install:
   - mkdir $PARENTDIR/build
 
 install: 
-  - ./install-vtk.sh
-  - ./install-boost.sh
+  - ./$PARENTDIR/install-vtk.sh
+  - ./$PARENTDIR/install-boost.sh
   - cd $PARENTDIR/build
   - cmake -DCMAKE_BUILD_TYPE=Debug $PARENTDIR
 
