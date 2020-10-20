@@ -1,0 +1,39 @@
+
+language: cpp
+dist: xenial
+notifications:
+  email: false
+
+# Define builds on mulitple OS/compiler combinations. 
+# Feel free to add/remove entries from this list.
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - boost-latest
+          packages:
+            - g++-4.8
+            - gcc-4.8
+            - libboost1.55-all-dev
+            - libvtk5-dev
+            - cmake
+            - doxygen
+      env:
+        - MATRIX_EVAL="CXX_COMPILER=g++-4.8"
+
+    
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - PARENTDIR=$(pwd)
+  - mkdir $PARENTDIR/build
+
+install: 
+  - cd $PARENTDIR/build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=$CXX_COMPILER $PARENTDIR
+
+script:
+  - make
