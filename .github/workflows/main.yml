@@ -1,0 +1,77 @@
+name: CI
+
+on: push
+
+jobs:
+  ci:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Github Actions requires a single row to be added to the build matrix.
+        # See https://help.github.com/en/articles/workflow-syntax-for-github-actions.
+        name: [
+          ubuntu-16.04-gcc-4.8,
+          ubuntu-16.04-gcc-4.9,
+        ]
+
+        include:
+          - name: ubuntu-18.04-gcc-4.8
+            os: ubuntu-18.04
+            compiler: gcc
+            version: "4.8"
+
+          - name: ubuntu-18.04-gcc-4.9
+            os: ubuntu-18.04
+            compiler: gcc
+            version: "4.9"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: add-github-ci
+
+      - name: Install (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          # CMake 3.15 allows specifying the generator using the CMAKE_GENERATOR
+          # environment variable.
+          curl -sSL https://github.com/Kitware/CMake/releases/download/v3.15.4/cmake-3.15.4-Linux-x86_64.tar.gz -o cmake.tar.gz
+          sudo tar xf cmake.tar.gz --strip 1 -C /usr/local
+
+          sudo apt-get update
+
+          # packages needed for vtk
+          sudo apt-get install -qq -y wget mesa-common-dev mesa-utils libosmesa6 libxt-dev
+          # packages needed for vtk (according to group share)
+          sudo apt-get install -qq -y libpng-dev libjpeg-dev libxxf86vm1 libxxf86vm-dev libxi-dev libxrandr-dev mesa-common-dev mesa-utils-extra libgl1-mesa-dev libglapi-mesa \
+          doxygen
+
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            sudo apt-get install -y g++-${{ matrix.version }} g++-${{ matrix.version }}-multilib
+            echo "::set-env name=CC::gcc-${{ matrix.version }}"
+            echo "::set-env name=CXX::g++-${{ matrix.version }}"
+          else
+            sudo apt-get install -y clang-${{ matrix.version }} g++-multilib
+            echo "::set-env name=CC::clang-${{ matrix.version }}"
+            echo "::set-env name=CXX::clang++-${{ matrix.version }}"
+          fi
+
+          # install boost
+          cd /tmp && wget http://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.tar.gz
+          tar xfz boost_1_57_0.tar.gz
+          rm boost_1_57_0.tar.gz
+          cd boost_1_57_0
+          sudo ./bootstrap.sh --prefix=/usr/local
+          sudo ./b2 install
+          rm -rf /tmp/boost_1_57_0
+
+      - name: Build Release
+        if: runner.os == 'Linux'
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug ..
+          make
+          
