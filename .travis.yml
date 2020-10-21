@@ -45,16 +45,28 @@ matrix:
     # Linux GCC Builds
 
     - os: linux
-      compiler: linux-gcc48-debug
+      compiler: 16.04-gcc48-debug
       addons: *gcc48
       env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
       dist: xenial
 
     - os: linux
-      compiler: linux-gcc49-debug
+      compiler: 16.04-gcc49-debug
       addons: *gcc49
       env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
       dist: xenial
+    
+    - os: linux
+      compiler: 14.04-gcc48-debug
+      addons: *gcc48
+      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
+      dist: trusty
+
+    - os: linux
+      compiler: 14.04-gcc49-debug
+      addons: *gcc49
+      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
+      dist: trusty
       
 #-----------------------------------------------------------------------------
 
