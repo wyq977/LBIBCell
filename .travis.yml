@@ -7,7 +7,12 @@
 language: cpp
 
 dist: xenial
-
+env:
+  global:
+    - BOOST_VERSION=1.57.0
+    - BOOST_LIB='/usr/local'
+    - VTK_VERSION=5.10.1
+    - VTK_LIB='/tmp/lib'
 
 #-----------------------------------------------------------------------------
 
@@ -38,12 +43,6 @@ addons:
 
 matrix:
   include:
-    env:
-      global:
-        - BOOST_VERSION=1.57.0
-        - BOOST_LIB='/usr/local'
-        - VTK_VERSION=5.10.1
-        - VTK_LIB='/tmp/lib'
         
     # Linux GCC Builds
 
