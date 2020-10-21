@@ -60,7 +60,7 @@ matrix:
 install:
   - cd ${TRAVIS_BUILD_DIR}
   - sudo apt-get update && sudo apt-get install -qq -y libboost-dev
-  - sudo bash install-vtk.sh ${VTK_VERSION} ${VTK_LIB}
+  - bash install-vtk.sh ${VTK_VERSION} ${VTK_LIB}
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
