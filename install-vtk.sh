@@ -1,15 +1,18 @@
 #!/bin/sh
 set -ex
 
-cd /tmp
-git clone --single-branch --branch v5.10.1 https://gitlab.kitware.com/vtk/vtk.git && \
+VTK_VERSION=${1:-5.10.1}
+VTK_LIB=${2:-/usr/local/lib}
+
+# clone
+git clone --single-branch --branch v$VTK_VERSION https://gitlab.kitware.com/vtk/vtk.git /tmp/vtk
 
 # out-of-source build
 mkdir /tmp/vtk-build && cd /tmp/vtk-build
 cmake -Wno-dev \
 -D CMAKE_BUILD_TYPE:STRING=Release \
 -D BUILD_SHARED_LIBS:BOOL=ON \
--D CMAKE_INSTALL_PREFIX:STRING=/usr/lib/vtk \
+-D CMAKE_INSTALL_PREFIX:STRING=$VTK_LIB \
 -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY \
 -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY \
 /tmp/vtk
@@ -19,4 +22,4 @@ make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && \
 make install --silent
 
 # clean up
-cd /tmp && rm -rf vtk && rm -rf vtk-build
+rm -rf /tmp/vtk && rm -rf /tmp/vtk-build
