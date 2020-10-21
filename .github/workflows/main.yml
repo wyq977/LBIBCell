@@ -53,8 +53,8 @@ jobs:
           mkdir /tmp/vtk-build
           cd /tmp/vtk-build
           cmake -Wno-dev -D VTK_RENDERING_BACKEND:STRING=None -D CMAKE_BUILD_TYPE:STRING=Release -D BUILD_SHARED_LIBS:BOOL=ON -D CMAKE_INSTALL_PREFIX:STRING=/usr/lib/vtk -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY /tmp/vtk
-          make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && make install --silent
-          cmake --version
+          sudo make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && make install --silent
+          sudo cmake --version
 
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             sudo apt-get install -y g++-${{ matrix.version }} g++-${{ matrix.version }}-multilib
