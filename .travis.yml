@@ -4,7 +4,10 @@
 #
 #-----------------------------------------------------------------------------
 
-language: generic
+
+language: cpp
+notifications:
+  email: false
 
 dist: xenial
 
@@ -14,21 +17,21 @@ dist: xenial
   addons_gcc48: &gcc48
     apt:
       sources: ['ubuntu-toolchain-r-test', 'boost-latest']
-      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'pandoc', 'g++-4.8', 'gcc-4.8']
+      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'g++-4.8', 'gcc-4.8']
   addons_gcc49: &gcc49
     apt:
       sources: ['ubuntu-toolchain-r-test', 'boost-latest']
-      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'pandoc', 'g++-4.9', 'gcc-4.9']
+      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'g++-4.9', 'gcc-4.9']
   addons_gcc5: &gcc5
     apt:
-      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'pandoc', 'g++-5', 'gcc-5']
+      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'g++-5', 'gcc-5']
   addons_gcc6: &gcc6
     apt:
       sources: ['ubuntu-toolchain-r-test']
-      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'pandoc', 'g++-6', 'gcc-6']
+      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'g++-6', 'gcc-6']
   addons_gcc7: &gcc7
     apt:
-      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'pandoc']
+      packages: ['libboost-all-dev', 'libboost-program-options-dev',]
 
 #-----------------------------------------------------------------------------
 
