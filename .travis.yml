@@ -8,6 +8,12 @@ language: cpp
 
 dist: xenial
 
+env:
+  - BOOST_VERSION=1.57.0
+  - BOOST_LIB="/usr/local"
+  - VTK_VERSION=5.10.1
+  - VTK_LIB="/usr/local/lib"
+
 #-----------------------------------------------------------------------------
 
 # Save common build configurations as shortcuts, so we can reference them later.
@@ -26,16 +32,11 @@ addons_shortcuts:
 addons:
   apt:
     packages:
-      - libvtk5-dev
-      - libopenmpi-dev
-      - openmpi-bin
-      - cmake
-      - doxygen
       - mesa-common-dev
       - mesa-utils
+      - freeglut3-dev
       - libosmesa6
-      - libxt-dev
-      
+      - doxygen
 
 #-----------------------------------------------------------------------------
 
@@ -45,50 +46,28 @@ matrix:
     # Linux GCC Builds
 
     - os: linux
-      compiler: 16.04-gcc48-debug
+      compiler: 14.04-gcc48-release
       addons: *gcc48
-      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
-      dist: xenial
-
-    - os: linux
-      compiler: 16.04-gcc49-debug
-      addons: *gcc49
-      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
-      dist: xenial
-    
-    - os: linux
-      compiler: 14.04-gcc48-debug
-      addons: *gcc48
-      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
+      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Release'
       dist: trusty
 
     - os: linux
-      compiler: 14.04-gcc49-debug
+      compiler: 14.04-gcc49-release
       addons: *gcc49
-      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
+      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Release'
       dist: trusty
       
 #-----------------------------------------------------------------------------
 
 install:
-  - cd /tmp
-  - wget http://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.tar.gz
-  - tar xfz boost_1_57_0.tar.gz
-  - rm boost_1_57_0.tar.gz
-  - cd boost_1_57_0
-  - sudo ./bootstrap.sh --prefix=/usr/local
-  - sudo ./b2 install
-  - git clone --single-branch --branch v5.10.1 https://gitlab.kitware.com/vtk/vtk.git /tmp/vtk
-  - mkdir /tmp/vtk-build
-  - cd /tmp/vtk-build
-  - cmake -Wno-dev -D VTK_RENDERING_BACKEND:STRING=None -D CMAKE_BUILD_TYPE:STRING=Release -D BUILD_SHARED_LIBS:BOOL=ON -D CMAKE_INSTALL_PREFIX:STRING=/usr/lib/vtk -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY /tmp/vtk
-  - make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && make install --silent
-  - cmake --version
+  - cd ${TRAVIS_BUILD_DIR}
+  - sudo apt-get update && sudo apt-get install -qq -y libboost-dev
+  - sudo bash install-vtk.sh ${VTK_VERSION} ${VTK_LIB}
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+  - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DVTK_DIR=${VTK_LIB}/lib/vtk-5.10 ..
 
 script:
   - make VERBOSE=1
