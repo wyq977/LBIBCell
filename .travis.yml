@@ -20,28 +20,31 @@ addons_shortcuts:
     apt:
       sources: ['ubuntu-toolchain-r-test', 'boost-latest']
       packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'g++-4.9', 'gcc-4.9']
-  addons_gcc5: &gcc5
-    apt:
-      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'g++-5', 'gcc-5']
-  addons_gcc6: &gcc6
-    apt:
-      sources: ['ubuntu-toolchain-r-test']
-      packages: ['libboost-all-dev', 'libboost-program-options-dev', 'g++-6', 'gcc-6']
-  addons_gcc7: &gcc7
-    apt:
-      packages: ['libboost-all-dev', 'libboost-program-options-dev']
 
 #-----------------------------------------------------------------------------
 addons:
   apt:
     packages:
       - libvtk5-dev
+      - libopenmpi-dev
+      - openmpi-bin
       - cmake
       - doxygen
       - mesa-common-dev
       - mesa-utils
       - libosmesa6
       - libxt-dev
+      - libpng-dev
+      - libjpeg-dev
+      - libxxf86vm1
+      - libxxf86vm-dev
+      - libxi-dev
+      - libxrandr-dev
+      - mesa-common-dev
+      - mesa-utils-extra
+      - libgl1-mesa-dev
+      - libglapi-mesa
+      
 
 #-----------------------------------------------------------------------------
 
@@ -61,28 +64,6 @@ matrix:
       addons: *gcc49
       env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
       dist: trusty
-
-    - os: linux
-      compiler: linux-gcc5-debug
-      addons: *gcc5
-      env: CC='gcc-5' CXX='g++-5' BUILD_TYPE='Debug'
-
-    - os: linux
-      compiler: linux-gcc6-debug
-      addons: *gcc6
-      env: CC='gcc-6' CXX='g++-6' BUILD_TYPE='Debug'
-
-    - os: linux
-      compiler: linux-gcc7-debug
-      addons: *gcc7
-      env: CC='gcc-7' CXX='g++-7' BUILD_TYPE='Debug'
-      dist: bionic
-
-    - os: linux
-      compiler: linux-gcc7-release
-      addons: *gcc7
-      env: CC='gcc-7' CXX='g++-7' BUILD_TYPE='Release'
-      dist: bionic
 
 #-----------------------------------------------------------------------------
 
