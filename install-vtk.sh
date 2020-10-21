@@ -2,7 +2,7 @@
 set -ex
 
 VTK_VERSION=${1:-5.10.1}
-VTK_LIB=${2:-/usr/local/lib}
+VTK_LIB=${2:-/usr/local}
 
 # clone
 git clone --single-branch --branch v$VTK_VERSION https://gitlab.kitware.com/vtk/vtk.git /tmp/vtk
