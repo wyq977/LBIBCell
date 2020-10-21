@@ -9,7 +9,7 @@ git clone --single-branch --branch v$VTK_VERSION https://gitlab.kitware.com/vtk/
 
 # out-of-source build
 mkdir /tmp/vtk-build && cd /tmp/vtk-build
-cmake --build . -Wno-dev \
+cmake -Wno-dev \
 -D CMAKE_BUILD_TYPE:STRING=Release \
 -D BUILD_SHARED_LIBS:BOOL=ON \
 -D CMAKE_INSTALL_PREFIX:STRING=$VTK_LIB \
