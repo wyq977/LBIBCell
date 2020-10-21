@@ -14,14 +14,15 @@ dist: xenial
 addons_shortcuts:
   addons_gcc48: &gcc48
     apt:
-      sources: ['ubuntu-toolchain-r-test', 'boost-latest']
-      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'g++-4.8', 'gcc-4.8', 'libvtk5-dev']
+      sources: ['ubuntu-toolchain-r-test']
+      packages: ['g++-4.8', 'gcc-4.8']
   addons_gcc49: &gcc49
     apt:
-      sources: ['ubuntu-toolchain-r-test', 'boost-latest']
-      packages: ['libboost1.55-all-dev', 'libboost-program-options1.55-dev', 'g++-4.9', 'gcc-4.9', 'libvtk5-dev']
+      sources: ['ubuntu-toolchain-r-test']
+      packages: ['g++-4.9', 'gcc-4.9']
 
 #-----------------------------------------------------------------------------
+
 addons:
   apt:
     packages:
@@ -34,16 +35,6 @@ addons:
       - mesa-utils
       - libosmesa6
       - libxt-dev
-      - libpng-dev
-      - libjpeg-dev
-      - libxxf86vm1
-      - libxxf86vm-dev
-      - libxi-dev
-      - libxrandr-dev
-      - mesa-common-dev
-      - mesa-utils-extra
-      - libgl1-mesa-dev
-      - libglapi-mesa
       
 
 #-----------------------------------------------------------------------------
@@ -52,18 +43,6 @@ matrix:
   include:
 
     # Linux GCC Builds
-
-    - os: linux
-      compiler: linux-gcc48-debug
-      addons: *gcc48
-      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
-      dist: trusty
-
-    - os: linux
-      compiler: linux-gcc49-debug
-      addons: *gcc49
-      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
-      dist: trusty
 
     - os: linux
       compiler: linux-gcc48-debug
@@ -80,6 +59,20 @@ matrix:
 #-----------------------------------------------------------------------------
 
 install:
+  - cd /tmp
+  - wget http://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.tar.gz
+  - tar xfz boost_1_57_0.tar.gz
+  - rm boost_1_57_0.tar.gz
+  - cd boost_1_57_0
+  - sudo ./bootstrap.sh --prefix=/usr/local
+  - sudo ./b2 install \
+  - rm -rf /tmp/boost_1_57_0
+  - git clone --single-branch --branch v5.10.1 https://gitlab.kitware.com/vtk/vtk.git /tmp/vtk
+  - mkdir /tmp/vtk-build
+  - cd /tmp/vtk-build
+  - cmake -Wno-dev -D CMAKE_BUILD_TYPE:STRING=Release -D BUILD_SHARED_LIBS:BOOL=ON -D CMAKE_INSTALL_PREFIX:STRING=/usr/lib/vtk -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY /tmp/vtk
+  - make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && make install --silent
+  - cd /tmp && rm -rf vtk && rm -rf vtk-build && rm -rf boost_1_57_0
   - cmake --version
 
 before_script:
