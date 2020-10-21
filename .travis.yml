@@ -92,7 +92,7 @@ install:
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} $PARENTDIR
+  - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
 
 script:
   - make VERBOSE=1
