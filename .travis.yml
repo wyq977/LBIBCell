@@ -4,16 +4,14 @@
 #
 #-----------------------------------------------------------------------------
 
-
 language: cpp
-notifications:
-  email: false
 
 dist: xenial
 
 #-----------------------------------------------------------------------------
 
 # Save common build configurations as shortcuts, so we can reference them later.
+addons_shortcuts:
   addons_gcc48: &gcc48
     apt:
       sources: ['ubuntu-toolchain-r-test', 'boost-latest']
@@ -31,10 +29,9 @@ dist: xenial
       packages: ['libboost-all-dev', 'libboost-program-options-dev', 'g++-6', 'gcc-6']
   addons_gcc7: &gcc7
     apt:
-      packages: ['libboost-all-dev', 'libboost-program-options-dev',]
+      packages: ['libboost-all-dev', 'libboost-program-options-dev']
 
 #-----------------------------------------------------------------------------
-
 addons:
   apt:
     packages:
@@ -45,8 +42,8 @@ addons:
       - mesa-utils
       - libosmesa6
       - libxt-dev
-    update: true
 
+#-----------------------------------------------------------------------------
 
 matrix:
   include:
@@ -54,31 +51,31 @@ matrix:
     # Linux GCC Builds
 
     - os: linux
-      compiler: linux-gcc48-dev
+      compiler: linux-gcc48-debug
       addons: *gcc48
-      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Dev'
+      env: CC='gcc-4.8' CXX='g++-4.8' CXXFLAGS='-Wno-return-type' BUILD_TYPE='Debug'
       dist: trusty
 
     - os: linux
-      compiler: linux-gcc49-dev
+      compiler: linux-gcc49-debug
       addons: *gcc49
-      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Dev'
+      env: CC='gcc-4.9' CXX='g++-4.9' BUILD_TYPE='Debug'
       dist: trusty
 
     - os: linux
-      compiler: linux-gcc5-dev
+      compiler: linux-gcc5-debug
       addons: *gcc5
-      env: CC='gcc-5' CXX='g++-5' BUILD_TYPE='Dev'
+      env: CC='gcc-5' CXX='g++-5' BUILD_TYPE='Debug'
 
     - os: linux
-      compiler: linux-gcc6-dev
+      compiler: linux-gcc6-debug
       addons: *gcc6
-      env: CC='gcc-6' CXX='g++-6' BUILD_TYPE='Dev'
+      env: CC='gcc-6' CXX='g++-6' BUILD_TYPE='Debug'
 
     - os: linux
-      compiler: linux-gcc7-dev
+      compiler: linux-gcc7-debug
       addons: *gcc7
-      env: CC='gcc-7' CXX='g++-7' BUILD_TYPE='Dev'
+      env: CC='gcc-7' CXX='g++-7' BUILD_TYPE='Debug'
       dist: bionic
 
     - os: linux
@@ -87,18 +84,17 @@ matrix:
       env: CC='gcc-7' CXX='g++-7' BUILD_TYPE='Release'
       dist: bionic
 
-
 #-----------------------------------------------------------------------------
 
-before_install:
-  - PARENTDIR=$(pwd)
-  - mkdir $PARENTDIR/build
+install:
+  - cmake --version
 
-install: 
-  - cd $PARENTDIR/build
-  - cmake -DCMAKE_BUILD_TYPE=Debug $PARENTDIR
+before_script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} $PARENTDIR
 
 script:
-  - make
+  - make VERBOSE=1
 
 #-----------------------------------------------------------------------------
