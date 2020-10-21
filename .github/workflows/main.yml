@@ -7,6 +7,9 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
 
+    env:
+      VTK_LIB: /tmp/vtk-lib
+
     strategy:
       fail-fast: false
       matrix:
@@ -52,7 +55,8 @@ jobs:
           git clone --single-branch --branch v5.10.1 https://gitlab.kitware.com/vtk/vtk.git /tmp/vtk
           mkdir /tmp/vtk-build
           cd /tmp/vtk-build
-          cmake -Wno-dev -D VTK_RENDERING_BACKEND:STRING=None -D CMAKE_BUILD_TYPE:STRING=Release -D BUILD_SHARED_LIBS:BOOL=ON -D CMAKE_INSTALL_PREFIX:STRING=/usr/lib/vtk -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY /tmp/vtk
+          mkdir $VTK_LIB
+          cmake -Wno-dev -D VTK_RENDERING_BACKEND:STRING=None -D CMAKE_BUILD_TYPE:STRING=Release -D BUILD_SHARED_LIBS:BOOL=ON -D CMAKE_INSTALL_PREFIX:STRING=$VTK_LIB -D CMAKE_C_FLAGS:STRING=-DGLX_GLXEXT_LEGACY -D CMAKE_CXX_FLAGS:STRING=-DGLX_GLXEXT_LEGACY /tmp/vtk
           sudo make --silent -j $(cat /proc/cpuinfo | grep processor | wc -l) VERBOSE=1 && make install --silent
           sudo cmake --version
 
@@ -79,6 +83,6 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Debug ..
+          cmake -DVTK_DIR=$VTK_LIB/lib/vtk-5.10 -DCMAKE_BUILD_TYPE=Debug ..
           make
           
