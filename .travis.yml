@@ -75,6 +75,6 @@ before_script:
   - cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DVTK_DIR=${VTK_LIB}/lib/vtk-${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION} ..
 
 script:
-  - make VERBOSE=1
+  - make
 
 #-----------------------------------------------------------------------------
