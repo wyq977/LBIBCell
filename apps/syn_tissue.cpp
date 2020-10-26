@@ -42,13 +42,15 @@ int main(
         // arg parsing
         std::string outfolder;
         std::string parameters;
+        std::string geometryInput;
 
-        if (argc == 3) {
+        if (argc == 4) {
             outfolder = argv[1];
             parameters = argv[2];
+            geometryInput = argv[3];
         } else {
             std::cout << "Usage: " << argv[0]
-                      << " output_dir parameters.txt"
+                      << " output_dir parameters.txt geometry.txt"
                       << std::endl;
         return EXIT_FAILURE;
         }
@@ -56,6 +58,7 @@ int main(
         std::cout << std::string(80, '*') << std::endl
                   << "Output dir: " << outfolder << std::endl
                   << "Parameters: " << parameters << std::endl
+                  << "Geometry  : " << geometryInput << std::endl
                   << std::string(80, '*') << std::endl;
 
     try {
@@ -80,8 +83,7 @@ int main(
         LbmLib::Parameters.loadGlobalSimulationParameters(parameters);
         LbmLib::Parameters.printParameters();
 
-        //LbmLib::geometry::Geometry geo("config/tutorial_01_geometry.txt");
-        LbmLib::geometry::Geometry geo("config/vtk/Cells_0.vtm");
+        LbmLib::geometry::Geometry geo(geometryInput);
         LbmLib::geometry::GeometryHandler geohandler(geo);
 
         LbmLib::reportHandler::ReportHandler reporter(
@@ -132,11 +134,6 @@ int main(
         simRunner.initForceSolver("config/force.txt");
 
         simRunner.addMassSolver("MassSolverBoxOutlet");
-        // simRunner.addBioSolver("tutorial_01_BioSolverAreaRegulator");
-        // simRunner.addBioSolver("tutorial_01_BioSolverMembraneTension");
-        // simRunner.addBioSolver("tutorial_01_BioSolverCellJunction");
-        // simRunner.addBioSolver("tutorial_01_BioSolverDifferentiation");
-        // simRunner.addBioSolver("tutorial_01_BioSolverCellDivision");
         simRunner.addBioSolver("BioSolverAreaRegulator");
         simRunner.addBioSolver("BioSolverCellDivision");
         simRunner.addBioSolver("BioSolverCellJunction");

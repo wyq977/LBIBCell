@@ -1,8 +1,0 @@
-#Global Parameter file
-CurrentIterations:	0
-Iterations:	100000
-ReportStep:	100
-SizeX:	400
-SizeY:	400
-tauFluid:	2.0
-CDESolvers:	CDESolverD2Q5HH	2.0	CDESolverD2Q5BMP	2.0
