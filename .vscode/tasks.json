@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Run LBIBCell prog",
+            "command": "./syn_tissue",
+            "args": [
+                "${input:param1}",
+                "${input:param2}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build/apps"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            
+        },
+    ],
+    "inputs": [
+        {
+            "id": "param1",
+            "description": "output_dir:",
+            "default": "syn_tissue_output/",
+            "type": "promptString"
+        },
+        {
+            "id": "param2",
+            "description": "parameters.txt:",
+            "default": "config/syn_tissue_parameters.txt",
+            "type": "promptString"
+        },
+    ]
+}
