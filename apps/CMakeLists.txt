@@ -82,5 +82,6 @@ ENDMACRO(ADD_APPLICATION src)
 #############################################################################
 ADD_APPLICATION(tutorial_01.cpp)
 ADD_APPLICATION(tutorial_02.cpp)
+ADD_APPLICATION(syn_tissue.cpp)
 
 

@@ -1,0 +1,7 @@
+#Global Parameter file
+CurrentIterations:	0
+Iterations:	10000
+ReportStep:	50
+SizeX:	1000
+SizeY:	1000
+tauFluid:	2.0
