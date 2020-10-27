@@ -197,6 +197,12 @@ class Geometry {
      */
     std::map<unsigned int, unsigned int> getCellTypeTrackerMap(void) const;
 
+    /**
+     * @brief removeGeometryNodeWithoutReconnecting Removes the node from the fastneighborlist_ and geometryNodes_ datastructues
+     * @param nodeid The ID of the node to be removed.
+     */
+    void removeGeometryNodeWithoutReconnecting(const unsigned int nodeid);
+    
 private:
     /**
      * @brief loads the geometry from a file

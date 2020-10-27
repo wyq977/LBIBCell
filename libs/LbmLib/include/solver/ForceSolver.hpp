@@ -98,6 +98,11 @@ class ForceSolver {
      */
     const map_forcestruct getAllForces() const;
 
+    /**
+     * @brief deleteForcesAssociatedWithNodeOn Delete all structs associated with node nodeid.
+     * @param nodeid The id of the node whose forces will be removed.
+     */
+    void deleteForcesAssociatedWithNodeOn(const unsigned int nodeid);
 
     /**
      * @brief The destructor

@@ -183,7 +183,7 @@ void ForceSolver::deleteForceType(const unsigned int forcetype)
 /**
   * @todo fails with pragma, of course. other ways?
   */
-//#pragma omp parallel for schedule(static)
+#pragma omp parallel for schedule(static)
     for (size_t j=0;
          j<forcemap_length;
          ++j) {
@@ -223,6 +223,49 @@ std::vector<std::shared_ptr<AbstractForceStruct> > ForceSolver::getForcesOfNode(
 const map_forcestruct ForceSolver::getAllForces() const
 {
     return this->forcemap_;
+}
+
+void ForceSolver::deleteForcesAssociatedWithNodeOn(const unsigned int nodeid)
+{
+    // omp can't deal with non-random-access-iterators :(
+    const auto forcemap_length = this->forcemap_.size();
+
+    std::vector<map_forcestruct::iterator> helper_map;
+    auto map_it = this->forcemap_.begin();
+
+    // create array of iterators sequentally:
+    for (size_t j=0;
+         j<forcemap_length;
+         ++j) {
+        helper_map.push_back(map_it++);
+    }
+
+    // first clear all secondary associations, i.e. forcestructs where nodeid is only interaction partner:
+    /**
+    * @todo fails with pragma, of course. other ways?
+    */
+#pragma omp parallel for schedule(static)
+    for (size_t j=0;
+         j<forcemap_length;
+         ++j) {
+        // erase-remove idiom:
+        helper_map[j]->second.erase( std::remove_if(helper_map[j]->second.begin(),
+                                                    helper_map[j]->second.end(),
+                                                    [nodeid](std::shared_ptr<AbstractForceStruct> force){
+                                                    if (force->getPartnerGeometryNode() == nodeid) {
+                                                      return true;
+                                                    }
+                                                    else {
+                                                      return false;
+                                                    }
+                                                    }),
+                                                    helper_map[j]->second.end()
+                                                    );
+    }
+
+    // then clear also all primary associations:
+    this->forcemap_[nodeid].clear();
+    this->forcemap_.erase(nodeid);
 }
 
 

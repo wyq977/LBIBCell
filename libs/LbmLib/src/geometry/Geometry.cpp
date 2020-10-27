@@ -539,6 +539,13 @@ std::map<unsigned int, unsigned int> Geometry::getCellTypeTrackerMap() const // 
     return this->cellTypeTrackerMap_;
 }
 
+void Geometry::removeGeometryNodeWithoutReconnecting(const unsigned int nodeid)
+{
+    this->fastneighborlist_.removeElement( // remove the element from the fastneighborlist
+                this->geometryNodes_[nodeid]
+                );
+    this->geometryNodes_.erase(nodeid); // remove from the primary data structure
+}
 
 }   // end namespace
 }  // end namespace

@@ -323,6 +323,38 @@ bool GeometryHandler::checkGeometryIntegrity() const
     return this->geometry_.checkGeometryIntegrity();
 }
 
+bool GeometryHandler::removeCell(solver::ForceSolver& forcesolver, unsigned int domainidentifier)
+{
+    auto tempnodesmap = this->getGeometry().getGeometryNodes();
+
+    std::vector<std::shared_ptr<LbmLib::geometry::Connection> > vecConnectionsToDelete;
+
+
+    for (auto i : tempnodesmap) { // loop all GeometryNodes
+        if (i.second->getDomainIdOfAdjacentConnections() == domainidentifier) {
+            const_cast<geometry::Geometry&>(this->geometry_).removeGeometryNodeWithoutReconnecting(i.second->getId());
+
+            // storing connections to delete. will be deleted at the end of this function.
+            vecConnectionsToDelete.push_back(i.second->getConnection<0>());
+
+            // also delete all forces which are asssociated with this GeometryNode:
+            forcesolver.deleteForcesAssociatedWithNodeOn(i.second->getId());
+            assert( forcesolver.checkIfNodeAssociationExists(i.second->getId()) );
+        }
+    }
+
+    // get rid of duplicates:
+    std::sort( vecConnectionsToDelete.begin(), vecConnectionsToDelete.end() );
+    vecConnectionsToDelete.erase( std::unique( vecConnectionsToDelete.begin(), vecConnectionsToDelete.end() ), vecConnectionsToDelete.end() );
+
+    //now delete all the unnecessary connections:
+    for (unsigned int i=0; i<vecConnectionsToDelete.size(); ++i) {
+        const_cast<geometry::Geometry&>(this->geometry_).eraseConnection(vecConnectionsToDelete[i]);
+    }
+
+    return 0;
+}
+
 void GeometryHandler::perturbConnections() {
     std::map<unsigned int,std::shared_ptr<LbmLib::geometry::Connection> > celldefinitionmap;
     std::vector<std::shared_ptr<LbmLib::geometry::Connection> > celldefinitionvector;

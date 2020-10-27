@@ -58,6 +58,7 @@ set(LBMLIB_SRCS
         src/solver/BioSolver/tutorial_02_BioSolverMembraneTension.cpp
         src/solver/BioSolver/tutorial_02_BioSolverCellJunction.cpp
         src/solver/BioSolver/tutorial_02_BioSolverCellDivision.cpp
+        src/solver/BioSolver/BioSolverRemoveCells.cpp
 
         src/solver/CDESolver/CDEAbstractSolver.cpp
         src/solver/CDESolver/CDESolverD2Q4.cpp
@@ -147,6 +148,7 @@ set(LBMLIB_HEADER
         include/solver/BioSolver/tutorial_02_BioSolverMembraneTension.hpp
         include/solver/BioSolver/tutorial_02_BioSolverCellJunction.hpp
         include/solver/BioSolver/tutorial_02_BioSolverCellDivision.hpp
+        include/solver/BioSolver/BioSolverRemoveCells.hpp
 
         include/solver/CDESolver/CDEAbstractSolver.hpp
         include/solver/CDESolver/CDESolverD2Q4.hpp

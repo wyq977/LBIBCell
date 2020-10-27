@@ -24,6 +24,7 @@
 
 #include <LbmLib/include/geometry/Connection.hpp>
 #include <LbmLib/include/geometry/Geometry.hpp>
+#include <LbmLib/include/solver/ForceSolver.hpp>
 #include <iostream>
 #include <list>
 #include <memory>
@@ -185,6 +186,12 @@ class GeometryHandler {
      */
     bool checkGeometryIntegrity(void) const;
 
+    /**
+     * @brief removeCell Removes the entire cell domainidentifier
+     * @param domainidentifier The ID of the cell which will be removed.
+     * @return 1 if removed successfully; 0 otherwise
+     */
+    bool removeCell(solver::ForceSolver& forcesolver, unsigned int domainidentifier);
 
  private:
     /**
