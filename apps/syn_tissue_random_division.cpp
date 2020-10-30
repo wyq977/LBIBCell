@@ -71,6 +71,25 @@ int main(
         }
         auto ret = system(rm_files_cmd.c_str());
 
+        // // back up the parameters and geometry used
+        // std::string parametersBackupCmd = "exec cp " + parameters + " " + outfolder + "backup/ls" + parameters;
+        // std::string geometryInputBackupCmd = "exec cp " + geometryInput + " " + outfolder + "backup_" + geometryInput;
+        // auto backupParametersReturn = system(parametersBackupCmd.c_str());
+        // auto backupGeometryReturn = system(geometryInputBackupCmd.c_str());
+
+        // using namespace boost::filesystem;
+        // boost::filesystem::path src_path = "out";
+        // boost::filesystem::path dst_path = outfolder + "backup_" + geometryInput;
+
+        // std::cout << "src exists = " << std::boolalpha << exists( src_path ) << std::endl;  // Prints true
+        // try
+        // {
+        //     boost::filesystem::copy_file( src_path, dst_path );
+        // } catch (const boost::filesystem::filesystem_error& e)
+        // {
+        //     std::cerr << "Error: " << e.what() << std::endl;
+        // }
+
         std::stringstream fileName;
 
         //set up log facility:
@@ -140,6 +159,7 @@ int main(
         simRunner.addBioSolver("BioSolverGrowth");
         simRunner.addBioSolver("BioSolverMembraneTension");
         simRunner.addBioSolver("BioSolverRemoveCells");
+        simRunner.addBioSolver("BioSolverCellDivisionRD");
 
         simRunner.runSimulation();
 
