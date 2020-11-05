@@ -154,7 +154,6 @@ int main(
 
         simRunner.addMassSolver("MassSolverBoxOutlet");
         simRunner.addBioSolver("BioSolverAreaRegulator");
-        simRunner.addBioSolver("BioSolverCellDivision");
         simRunner.addBioSolver("BioSolverCellJunction");
         simRunner.addBioSolver("BioSolverGrowth");
         simRunner.addBioSolver("BioSolverMembraneTension");

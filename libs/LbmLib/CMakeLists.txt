@@ -75,6 +75,7 @@ set(LBMLIB_SRCS
         src/solver/CDESolver/tutorial_01_CDESolverD2Q5_SIGNAL.cpp
         src/solver/CDESolver/tutorial_02_CDESolverD2Q5_R.cpp
         src/solver/CDESolver/tutorial_02_CDESolverD2Q5_L.cpp
+        src/solver/CDESolver/CDESolverD2Q5_SHH.cpp
 
         src/solver/MassSolver/MassSolver.cpp
         src/solver/MassSolver/MassSolverSingleLayer.cpp
@@ -167,6 +168,7 @@ set(LBMLIB_HEADER
         include/solver/CDESolver/tutorial_01_CDESolverD2Q5_SIGNAL.hpp
         include/solver/CDESolver/tutorial_02_CDESolverD2Q5_R.hpp
         include/solver/CDESolver/tutorial_02_CDESolverD2Q5_L.hpp
+        include/solver/CDESolver/CDESolverD2Q5_SHH.hpp
 
         include/solver/MassSolver/MassAbstractSolver.hpp
         include/solver/MassSolver/MassSolver.hpp
