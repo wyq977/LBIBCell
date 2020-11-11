@@ -97,7 +97,9 @@ const double CDESolverD2Q5_SHH::reaction() const
         return SIGNAL_production;
     }
     else if (this->physicalNode_->getDomainIdentifier() != 0) {
-        return - TURNOVER;
+        // exponetial turn-over on the cell 
+        // if just: - 0.00002, negative value will be seen, does not make sense
+        return - TURNOVER * this->getC();
     }
     else {
         return -SIGNAL_decay*this->getC();
