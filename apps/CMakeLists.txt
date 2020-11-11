@@ -84,5 +84,4 @@ ADD_APPLICATION(tutorial_01.cpp)
 ADD_APPLICATION(tutorial_02.cpp)
 ADD_APPLICATION(syn_tissue.cpp)
 ADD_APPLICATION(syn_tissue_random_division.cpp)
-
-
+ADD_APPLICATION(shh_gradient.cpp)

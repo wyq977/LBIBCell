@@ -36,8 +36,8 @@ namespace solver {
 namespace {
     const unsigned int FREQUENCY = 100; ///< The frequency of applying this solver
     const double MAXCELLSIZE = 400.0; ///< The maximal area of cells before division  mean area of Heller 5.34 * 62.8 *2
-    const double SD = 50.0; // standard deviation of the normal distribution for MAXCELLSIZE
-    const double TRUNC = 0.5; // Degree of truncation, i.e. 0.5 is 50% cells will not be available 
+    const double SD = 250.0; // standard deviation of the normal distribution for MAXCELLSIZE
+    const double TRUNC = 0.2; // Degree of truncation, i.e. 0.5 is 50% cells will not be available 
 
 
 }

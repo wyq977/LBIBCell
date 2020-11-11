@@ -34,7 +34,7 @@ namespace {
     const unsigned int FREQUENCY = 10; ///< The frequency of applying this solver.
 
     const double XMIN = 25.0;
-    const double XMAX = 975.0;
+    const double XMAX = 275.0;
     const double YMIN = 25.0;
     const double YMAX = 975.;
 

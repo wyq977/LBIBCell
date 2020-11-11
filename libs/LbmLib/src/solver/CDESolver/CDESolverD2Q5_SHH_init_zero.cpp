@@ -23,7 +23,7 @@
 #include <LbmLib/include/nodes/PhysicalNode.hpp>
 #include <LbmLib/include/GlobalSimulationParameters.hpp>
 #include <LbmLib/include/solver/BoundaryAbstractSolver.hpp>
-#include <LbmLib/include/solver/CDESolver/CDESolverD2Q5_SHH.hpp>
+#include <LbmLib/include/solver/CDESolver/CDESolverD2Q5_SHH_init_zero.hpp>
 #include <UtilLib/include/Exception.hpp>
 #include <UtilLib/include/Log.hpp>
 #include <algorithm>
@@ -44,21 +44,13 @@ const double SIGNAL_production = 0.0001; ///< the production rate of SIGNAL in t
 const double SIGNAL_initalcondition = 1.0; ///< the inital concentration of SIGNAL
 }
 
-void CDESolverD2Q5_SHH::initSolver() {
-    if (this->physicalNode_->getDomainIdentifier() == 0) {
-        for (auto d : cdeDirIter_) {
-            distributions_[d] = 0.0;
-        }
-    }
-    // type 2 cells produces shh
-    else if (this->physicalNode_->getDomainIdentifier() == 2) {
-        for (auto d : cdeDirIter_) {
-            distributions_[d] = SIGNAL_initalcondition/5.0;
-        }
+void CDESolverD2Q5_SHH_init_zero::initSolver() {
+    for (auto d : cdeDirIter_) {
+        distributions_[d] = 0.0;
     }
 }
 
-void CDESolverD2Q5_SHH::writeSolver(std::ostream* const stream) {
+void CDESolverD2Q5_SHH_init_zero::writeSolver(std::ostream* const stream) {
     (*stream) << physicalNode_->getXPos() << '\t' << physicalNode_->getYPos();
     for (auto d : distributions_) {
         (*stream) << '\t' << d;
@@ -66,7 +58,7 @@ void CDESolverD2Q5_SHH::writeSolver(std::ostream* const stream) {
     (*stream) << '\n';
 }
 
-void CDESolverD2Q5_SHH::loadSolver(std::stringstream* const stream) {
+void CDESolverD2Q5_SHH_init_zero::loadSolver(std::stringstream* const stream) {
     int x, y;
     (*stream) >> x >> y;
     assert(physicalNode_->getXPos() == x && "The position does not match");
@@ -76,22 +68,22 @@ void CDESolverD2Q5_SHH::loadSolver(std::stringstream* const stream) {
     }
 }
 
-double& CDESolverD2Q5_SHH::accessDistribution(const Direction& dir) {
+double& CDESolverD2Q5_SHH_init_zero::accessDistribution(const Direction& dir) {
     assert(dir > T && dir < NE);
     return distributions_[dir];
 }
 
-void CDESolverD2Q5_SHH::rescaleDistributions(const double factor) {
+void CDESolverD2Q5_SHH_init_zero::rescaleDistributions(const double factor) {
     for (auto &it: this->distributions_) {
         it *= factor;
     }
 }
 
-double CDESolverD2Q5_SHH::getC() const {
+double CDESolverD2Q5_SHH_init_zero::getC() const {
     return std::accumulate(distributions_.begin(), distributions_.end(), 0.0);
 }
 
-const double CDESolverD2Q5_SHH::reaction() const
+const double CDESolverD2Q5_SHH_init_zero::reaction() const
 {
     if ((this->physicalNode_->getDomainIdentifier() == 2) && (Parameters.getCurrentIteration()<SWITCHOFF_TIME)) {
         return SIGNAL_production;
@@ -104,7 +96,7 @@ const double CDESolverD2Q5_SHH::reaction() const
     }
 }
 
-void CDESolverD2Q5_SHH::collide() {
+void CDESolverD2Q5_SHH_init_zero::collide() {
     assert(physicalNode_ != nullptr);
     // get the local concentration:
     const double C = getC();
@@ -139,7 +131,7 @@ void CDESolverD2Q5_SHH::collide() {
     localSwap();
 }
 
-double CDESolverD2Q5_SHH::calculateEquilibrium(const Direction& dir) {
+double CDESolverD2Q5_SHH_init_zero::calculateEquilibrium(const Direction& dir) {
     const double C = getC();
     // calculate the speeds
     const double u = physicalNode_->getFluidSolver().getVelocity().x;
@@ -171,7 +163,7 @@ double CDESolverD2Q5_SHH::calculateEquilibrium(const Direction& dir) {
     return 0;
 }
 
-void CDESolverD2Q5_SHH::advect() {
+void CDESolverD2Q5_SHH_init_zero::advect() {
     assert(physicalNode_ != nullptr);
     std::swap(distributions_[getInverseDirection(W)],
             physicalNode_->getPhysicalNeighbour(W)->getCDESolver(
@@ -181,12 +173,12 @@ void CDESolverD2Q5_SHH::advect() {
                     solverID_).accessDistribution(S));
 }
 
-void CDESolverD2Q5_SHH::localSwap() {
+void CDESolverD2Q5_SHH_init_zero::localSwap() {
     std::swap(distributions_[E], distributions_[W]);
     std::swap(distributions_[N], distributions_[S]);
 }
 
-void CDESolverD2Q5_SHH::reinitialise() {
+void CDESolverD2Q5_SHH_init_zero::reinitialise() {
     double sumC = 0.0;
     int counter = 0;
     const unsigned int myNodeID = this->physicalNode_->getDomainIdentifier();
@@ -254,13 +246,13 @@ void CDESolverD2Q5_SHH::reinitialise() {
     this->collide();
 }
 
-const std::string CDESolverD2Q5_SHH::name = "CDESolverD2Q5_SHH";
+const std::string CDESolverD2Q5_SHH_init_zero::name = "CDESolverD2Q5_SHH_init_zero";
 
 
-CDEDirectionsIteratorD2Q5 const CDESolverD2Q5_SHH::cdeDirIter_ =
+CDEDirectionsIteratorD2Q5 const CDESolverD2Q5_SHH_init_zero::cdeDirIter_ =
     CDEDirectionsIteratorD2Q5();
 
-CDESolverD2Q5_SHH::CDESolverD2Q5_SHH() : BaseCDESolver(),
+CDESolverD2Q5_SHH_init_zero::CDESolverD2Q5_SHH_init_zero() : BaseCDESolver(),
                                          distributions_(std::array<double,
                                                          5> {
                                                      {0.0, 0.0, 0.0,
