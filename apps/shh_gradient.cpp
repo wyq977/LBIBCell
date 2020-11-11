@@ -116,7 +116,7 @@ int main(
                                                                )
                                                            )
                                   );
-
+        
         // vtk force reporter:
         fileName.str("");
         fileName << outfolder+"Cells";
@@ -125,6 +125,19 @@ int main(
                                                            vtkForceReporter(
                                                                geo.getGeometryNodes(),
                                                                simRunner.getForceSolver(),
+                                                               fileName.str()
+                                                               )
+                                                           )
+                                  );
+
+        // vtk CDE reporter:
+        fileName.str("");
+        fileName << outfolder+"Cells";
+        reporter.registerReporter(std::unique_ptr < LbmLib::reportHandler::
+                                  AbstractReportFunctor > (new LbmLib::reportHandler::
+                                                           vtkCDEReporter(
+                                                               geohandler.getPhysicalNodes(),
+                                                               1, // cde coarseningfactor; 1=full resolution
                                                                fileName.str()
                                                                )
                                                            )
