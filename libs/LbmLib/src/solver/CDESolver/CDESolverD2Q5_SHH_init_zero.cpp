@@ -38,8 +38,8 @@ namespace solver {
 namespace {
 const double deltaT = 1.0;  ///< the time step
 const unsigned int SWITCHOFF_TIME = 5000; ///< the time when the production of SIGNAL is switched off
-const double SIGNAL_decay = 0.00001; ///< the decay rate of SIGNAL
-const double TURNOVER = 0.00002; ///< Turn over rate of SHH
+const double SIGNAL_decay = 0.001; ///< the decay rate of SIGNAL
+const double TURNOVER = 0.005; ///< Turn over rate of SHH
 const double SIGNAL_production = 0.0001; ///< the production rate of SIGNAL in the inital cell
 const double SIGNAL_initalcondition = 1.0; ///< the inital concentration of SIGNAL
 }
@@ -85,10 +85,10 @@ double CDESolverD2Q5_SHH_init_zero::getC() const {
 
 const double CDESolverD2Q5_SHH_init_zero::reaction() const
 {
-    if ((this->physicalNode_->getDomainIdentifier() == 2) && (Parameters.getCurrentIteration()<SWITCHOFF_TIME)) {
-        return SIGNAL_production;
+    if ((this->physicalNode_->getCellType() == 2) && (Parameters.getCurrentIteration()<SWITCHOFF_TIME)) {
+        return SIGNAL_production - TURNOVER * this->getC();
     }
-    else if (this->physicalNode_->getDomainIdentifier() != 0) {
+    else if (this->physicalNode_->getCellType() == 1) {
         // exponetial turn-over on the cell 
         // if just: - 0.00002, negative value will be seen, does not make sense
         return - TURNOVER * this->getC();
