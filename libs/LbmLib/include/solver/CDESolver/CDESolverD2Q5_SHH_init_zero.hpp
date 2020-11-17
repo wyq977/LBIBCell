@@ -78,6 +78,13 @@ class CDESolverD2Q5_SHH_init_zero : public BaseCDESolver<CDESolverD2Q5_SHH_init_
      * @param factor The rescaling factor.
      */
     virtual void rescaleDistributions(const double factor);
+    
+    /**
+     * @brief setDistribution Manually set distribution
+     * @param dir the direction where the Distribution is wanted
+     * @param newDistribution new direction calculated
+     */
+    virtual void setDistribution(const Direction& dir, const double newDistribution);
 
     /**
      * @brief getC Calculates the concentration on this node

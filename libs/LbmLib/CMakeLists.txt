@@ -180,7 +180,7 @@ set(LBMLIB_HEADER
         include/solver/MassSolver/MassSolverBoxOutlet.hpp
         include/solver/MassSolver/MassSolverFactory.hpp
         include/solver/MassSolver/MassSolverSingleGrowingCell.hpp
-        include/solver/MassSolver/MassSolverNoFluxYCDED2Q5.cpp
+        include/solver/MassSolver/MassSolverNoFluxYCDED2Q5.hpp
 
         include/solver/AbstractSolver.hpp
         include/solver/BoundaryAbstractSolver.hpp
