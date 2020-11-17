@@ -82,6 +82,11 @@ void SchnakenbergD2Q4v::rescaleDistributions(const double factor) {
     }
 }
 
+void SchnakenbergD2Q4v::setDistribution(const Direction& dir, const double newDistribution) {
+    assert(dir > T && dir < NE);
+    distributions_[dir] = newDistribution;
+}
+
 double SchnakenbergD2Q4v::getC() const {
     return std::accumulate(distributions_.begin(), distributions_.end(), 0.0);
 }

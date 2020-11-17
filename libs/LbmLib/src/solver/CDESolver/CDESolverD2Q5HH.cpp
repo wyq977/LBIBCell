@@ -85,6 +85,11 @@ void CDESolverD2Q5HH::rescaleDistributions(const double factor) {
     }
 }
 
+void CDESolverD2Q5HH::setDistribution(const Direction& dir, const double newDistribution) {
+    assert(dir > T && dir < NE);
+    distributions_[dir] = newDistribution;
+}
+
 double CDESolverD2Q5HH::getC() const {
     return std::accumulate(distributions_.begin(), distributions_.end(), 0.0);
 }

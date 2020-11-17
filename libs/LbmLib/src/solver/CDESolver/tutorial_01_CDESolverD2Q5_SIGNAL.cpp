@@ -85,6 +85,11 @@ void tutorial_01_CDESolverD2Q5_SIGNAL::rescaleDistributions(const double factor)
     }
 }
 
+void tutorial_01_CDESolverD2Q5_SIGNAL::setDistribution(const Direction& dir, const double newDistribution) {
+    assert(dir > T && dir < NE);
+    distributions_[dir] = newDistribution;
+}
+
 double tutorial_01_CDESolverD2Q5_SIGNAL::getC() const {
     return std::accumulate(distributions_.begin(), distributions_.end(), 0.0);
 }

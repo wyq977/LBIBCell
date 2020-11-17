@@ -87,7 +87,7 @@ void CDESolverD2Q5_SHH::rescaleDistributions(const double factor) {
     }
 }
 
-void CDESolverD2Q5_SHH::setDistributions(const Direction& dir, const double newDistribution) {
+void CDESolverD2Q5_SHH::setDistribution(const Direction& dir, const double newDistribution) {
     assert(dir > T && dir < NE);
     distributions_[dir] = newDistribution;
 }

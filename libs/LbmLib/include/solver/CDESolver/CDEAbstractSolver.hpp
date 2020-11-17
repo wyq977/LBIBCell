@@ -83,6 +83,13 @@ class CDEAbstractSolver : public AbstractSolver {
      */
     size_t getId();
 
+    /**
+     * @brief setDistribution Manually set distribution
+     * @param dir the direction where the Distribution is wanted
+     * @param newDistribution new direction calculated
+     */
+    virtual void setDistribution(const Direction& dir, const double newDistribution) = 0;
+
  protected:
     /**
      * @brief CDEAbstractSolver protected Constructor only use create method for instantiation

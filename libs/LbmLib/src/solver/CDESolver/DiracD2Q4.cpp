@@ -93,6 +93,11 @@ void DiracD2Q4::rescaleDistributions(const double factor) {
     }
 }
 
+void DiracD2Q4::setDistribution(const Direction& dir, const double newDistribution) {
+    assert(dir > T && dir < NE);
+    distributions_[dir] = newDistribution;
+}
+
 double DiracD2Q4::getC() const {
     return std::accumulate(distributions_.begin(), distributions_.end(), 0.0);
 }

@@ -80,6 +80,13 @@ class tutorial_01_CDESolverD2Q5_SIGNAL : public BaseCDESolver<tutorial_01_CDESol
     virtual void rescaleDistributions(const double factor);
 
     /**
+     * @brief setDistribution Manually set distribution
+     * @param dir the direction where the Distribution is wanted
+     * @param newDistribution new direction calculated
+     */
+    virtual void setDistribution(const Direction& dir, const double newDistribution);
+
+    /**
      * @brief getC Calculates the concentration on this node
      * @return The concentration on this node
      */
