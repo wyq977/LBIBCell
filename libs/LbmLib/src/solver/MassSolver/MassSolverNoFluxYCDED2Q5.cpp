@@ -112,18 +112,18 @@ void MassSolverNoFluxYCDED2Q5::calculateMass(
 #pragma omp parallel for schedule(dynamic)
     for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
         // sink mass at y=L
-        scalingfactor = 1.0/fluidGrid[L][itx]->getFluidSolver().getRho();
-        fluidGrid[L][itx]->getFluidSolver().rescaleDistributions(scalingfactor);
+        scalingfactor = 1.0/fluidGrid[L - 1][itx]->getFluidSolver().getRho();
+        fluidGrid[L - 1][itx]->getFluidSolver().rescaleDistributions(scalingfactor);
         // get fluid velocity
-        const double ux = fluidGrid[L][itx]->getFluidSolver().getVelocity().x;
-        const double uy = fluidGrid[L][itx]->getFluidSolver().getVelocity().y;
+        const double ux = fluidGrid[L - 1][itx]->getFluidSolver().getVelocity().x;
+        const double uy = fluidGrid[L - 1][itx]->getFluidSolver().getVelocity().y;
 
         // look at BoundarySolverNoFluxD2Q5        
         for (auto cdes = fluidGrid[0][itx]->getCDESolvers().begin();
              cdes != fluidGrid[0][itx]->getCDESolvers().end();
              cdes++) {
                 // neighbour: y=L-1
-                auto nbcdes = fluidGrid[L-1][itx]->getCDESolvers().begin();
+                auto nbcdes = fluidGrid[L - 2][itx]->getCDESolvers().begin();
                 double Cf = (*nbcdes)->getC() / 6.0;
 
                 // get the velocity on fluidGrid

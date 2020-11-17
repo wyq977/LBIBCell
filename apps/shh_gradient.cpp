@@ -159,7 +159,7 @@ int main(
         simRunner.initSolvers();
         simRunner.initForceSolver("config/force.txt");
 
-        simRunner.addMassSolver("MassSolverBoxOutlet");
+        simRunner.addMassSolver("MassSolverNoFluxYCDED2Q5");
         simRunner.addBioSolver("BioSolverAreaRegulator");
         simRunner.addBioSolver("BioSolverCellJunction");
         simRunner.addBioSolver("BioSolverGrowth");
