@@ -83,7 +83,8 @@ set(LBMLIB_SRCS
         src/solver/MassSolver/MassSolverSchnakenberg.cpp
         src/solver/MassSolver/MassSolverSingleGrowingCell.cpp
         src/solver/MassSolver/MassSolverBoxOutlet.cpp
-
+        src/solver/MassSolver/MassSolverNoFluxYCDED2Q5.cpp
+        
         src/solver/AbstractSolver.cpp
         src/solver/BoundaryAbstractSolver.cpp
         src/solver/BoundarySolverNoFlux.cpp
@@ -179,6 +180,7 @@ set(LBMLIB_HEADER
         include/solver/MassSolver/MassSolverBoxOutlet.hpp
         include/solver/MassSolver/MassSolverFactory.hpp
         include/solver/MassSolver/MassSolverSingleGrowingCell.hpp
+        include/solver/MassSolver/MassSolverNoFluxYCDED2Q5.cpp
 
         include/solver/AbstractSolver.hpp
         include/solver/BoundaryAbstractSolver.hpp
