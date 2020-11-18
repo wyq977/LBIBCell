@@ -167,8 +167,8 @@ void MassSolverNoFluxXYCDED2Q5::calculateMass(
         const double uy = fluidGrid[LY - 1][itx]->getFluidSolver().getVelocity().y;
 
         // look at BoundarySolverNoFluxD2Q5        
-        for (auto cdes = fluidGrid[0][itx]->getCDESolvers().begin();
-             cdes != fluidGrid[0][itx]->getCDESolvers().end();
+        for (auto cdes = fluidGrid[LY - 1][itx]->getCDESolvers().begin();
+             cdes != fluidGrid[LY - 1][itx]->getCDESolvers().end();
              cdes++) {
                 // neighbour: y=L-1
                 auto nbcdes = fluidGrid[LY - 2][itx]->getCDESolvers().begin();
