@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef MASSSOLVERNOFLUXYCDED2Q5_HPP
-#define MASSSOLVERNOFLUXYCDED2Q5_HPP
+#ifndef MASSSOLVERBOXOUTLETNOCDE_HPP
+#define MASSSOLVERBOXOUTLETNOCDE_HPP
 
 #include <LbmLib/include/solver/MassSolver/MassAbstractSolver.hpp>
 #include <string>
@@ -31,7 +31,7 @@ namespace solver {
 /**
  * @brief this solver introduces a constant local mass source to all domains with domainID!=0. Furthermore, it defines a mass ink at (x=0,y=y) and (x=x,y=0).
  */
-class MassSolverNoFluxYCDED2Q5 : public BaseMassSolver<MassSolverNoFluxYCDED2Q5> {
+class MassSolverBoxOutletNoCDE : public BaseMassSolver<MassSolverBoxOutletNoCDE> {
  public:
     /**
      * @brief The isopressure outflow boundary condition for the domain.
@@ -45,7 +45,7 @@ class MassSolverNoFluxYCDED2Q5 : public BaseMassSolver<MassSolverNoFluxYCDED2Q5>
      * @brief Define the constructor as private member to avoid initialisation of this class.
      */
     friend class BaseMassSolver;
-    MassSolverNoFluxYCDED2Q5();
+    MassSolverBoxOutletNoCDE();
     /**
      * @brief name The name of this solver.
      */
@@ -54,7 +54,6 @@ class MassSolverNoFluxYCDED2Q5 : public BaseMassSolver<MassSolverNoFluxYCDED2Q5>
 }
 }  // end namespace
 
-#endif  // MASSSOLVERNOFLUXYCDED2Q5_HPP
-
+#endif  // MASSSOLVERBOXOUTLETNOCDE_HPP
 
 

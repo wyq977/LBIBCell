@@ -117,18 +117,6 @@ int main(
                                                            )
                                   );
         
-        // vtk force reporter:
-        fileName.str("");
-        fileName << outfolder+"Cells";
-        reporter.registerReporter(std::unique_ptr < LbmLib::reportHandler::
-                                  AbstractReportFunctor > (new LbmLib::reportHandler::
-                                                           vtkForceReporter(
-                                                               geo.getGeometryNodes(),
-                                                               simRunner.getForceSolver(),
-                                                               fileName.str()
-                                                               )
-                                                           )
-                                  );
 
         // vtk CDE reporter:
         fileName.str("");
@@ -143,29 +131,20 @@ int main(
                                                            )
                                   );
 
-        // vtk fluid reporter:
-        fileName.str("");
-        fileName << outfolder+"Cells";
-        reporter.registerReporter(std::unique_ptr < LbmLib::reportHandler::
-                                  AbstractReportFunctor > (new LbmLib::reportHandler::
-                                                           vtkFluidReporter(
-                                                               geohandler.getPhysicalNodes(),
-                                                               4, // cde coarseningfactor; 1=full resolution
-                                                               fileName.str()
-                                                               )
-                                                           )
-                                  );
 
         simRunner.initSolvers();
         simRunner.initForceSolver("config/force.txt");
 
-        simRunner.addMassSolver("MassSolverNoFluxYCDED2Q5");
-        simRunner.addBioSolver("BioSolverAreaRegulator");
+        // constant influx of all cde from bottom y=0
+        // no flux condition elsewhere
+        simRunner.addMassSolver("MassSolverNoFluxXYCDED2Q5");
+        simRunner.addMassSolver("MassSolverBoxOutlet");
+        // simRunner.addBioSolver("BioSolverAreaRegulator");
         simRunner.addBioSolver("BioSolverCellJunction");
-        simRunner.addBioSolver("BioSolverGrowth");
+        // simRunner.addBioSolver("BioSolverGrowth");
         simRunner.addBioSolver("BioSolverMembraneTension");
         simRunner.addBioSolver("BioSolverRemoveCells");
-        simRunner.addBioSolver("BioSolverCellDivisionRD");
+        // simRunner.addBioSolver("BioSolverCellDivisionRD");
 
         simRunner.runSimulation();
 
