@@ -37,11 +37,10 @@ namespace LbmLib {
 namespace solver {
 namespace {
 const double deltaT = 1.0;  ///< the time step
-const unsigned int SWITCHOFF_TIME = 5000; ///< the time when the production of SIGNAL is switched off
-const double SIGNAL_decay = 0.001; ///< the decay rate of SIGNAL
-const double TURNOVER = 0.005; ///< Turn over rate of SHH
+const double SIGNAL_decay = 0.0; ///< the decay rate of SIGNAL
+const double TURNOVER = 0.001; ///< Turn over rate of SHH
 const double SIGNAL_production = 0.0001; ///< the production rate of SIGNAL in the inital cell
-const double SIGNAL_initalcondition = 1.0; ///< the inital concentration of SIGNAL
+const double SIGNAL_initalcondition = 0.0; ///< the inital concentration of SIGNAL
 }
 
 void CDESolverD2Q5_SHH::initSolver() {
@@ -98,7 +97,7 @@ double CDESolverD2Q5_SHH::getC() const {
 
 const double CDESolverD2Q5_SHH::reaction() const
 {
-    if ((this->physicalNode_->getCellType() == 2) && (Parameters.getCurrentIteration()<SWITCHOFF_TIME)) {
+    if (this->physicalNode_->getCellType() == 2) {
         return SIGNAL_production;
     }
     else if (this->physicalNode_->getCellType() == 1) {
@@ -107,7 +106,7 @@ const double CDESolverD2Q5_SHH::reaction() const
         return - TURNOVER * this->getC();
     }
     else {
-        return -SIGNAL_decay*this->getC();
+        return -SIGNAL_decay * this->getC();
     }
 }
 
