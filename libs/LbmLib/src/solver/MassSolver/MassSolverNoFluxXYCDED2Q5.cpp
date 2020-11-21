@@ -159,6 +159,57 @@ void MassSolverNoFluxXYCDED2Q5::calculateMass(
             }
     }
 
+    // no flux at y=0:
+#pragma omp parallel for schedule(dynamic)
+    for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
+        // get fluid velocity
+        const double ux = fluidGrid[0][itx]->getFluidSolver().getVelocity().x;
+        const double uy = fluidGrid[0][itx]->getFluidSolver().getVelocity().y;
+
+        // look at BoundarySolverNoFluxD2Q5        
+        for (auto cdes = fluidGrid[0][itx]->getCDESolvers().begin();
+             cdes != fluidGrid[0][itx]->getCDESolvers().end();
+             cdes++) {
+                // neighbour: y=1
+                auto nbcdes = fluidGrid[1][itx]->getCDESolvers().begin();
+                double Cf = (*nbcdes)->getC() / 6.0;
+
+                // get the velocity on fluidGrid
+                double feq = 0.0;
+                double fneq = 0.0;
+                double newDistribution = 0.0;
+
+                // E
+                feq = Cf * (1 + 3 * ux);
+                fneq =
+                    (*nbcdes)->accessDistribution(getInverseDirection(E)) -
+                    (*nbcdes)->calculateEquilibrium(E);
+                newDistribution = feq + fneq;
+                (*cdes)->setDistribution(E, newDistribution);
+                // N
+                feq = Cf * (1 + 3 * uy);
+                fneq =
+                    (*nbcdes)->accessDistribution(getInverseDirection(N)) -
+                    (*nbcdes)->calculateEquilibrium(N);
+                newDistribution = feq + fneq;
+                (*cdes)->setDistribution(N, newDistribution);
+                // W
+                feq = Cf * (1 - 3 * ux);
+                fneq =
+                    (*nbcdes)->accessDistribution(getInverseDirection(W)) -
+                    (*nbcdes)->calculateEquilibrium(W);
+                newDistribution = feq + fneq;
+                (*cdes)->setDistribution(W, newDistribution);
+                // S
+                feq = Cf * (1 - 3 * uy);
+                fneq =
+                    (*nbcdes)->accessDistribution(getInverseDirection(S)) -
+                    (*nbcdes)->calculateEquilibrium(S);
+                newDistribution = feq + fneq;
+                (*cdes)->setDistribution(S, newDistribution);
+            }
+        }
+
     // no flux at y=LY:
 #pragma omp parallel for schedule(dynamic)
     for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
@@ -207,25 +258,6 @@ void MassSolverNoFluxXYCDED2Q5::calculateMass(
                     (*nbcdes)->calculateEquilibrium(S);
                 newDistribution = feq + fneq;
                 (*cdes)->setDistribution(S, newDistribution);
-            }
-        }
-
-    // constant influx at y=0:
-#pragma omp parallel for schedule(dynamic)
-    for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
-        // get fluid velocity
-        const double ux = fluidGrid[0][itx]->getFluidSolver().getVelocity().x;
-        const double uy = fluidGrid[0][itx]->getFluidSolver().getVelocity().y;
-
-        // look at BoundarySolverNoFluxD2Q5        
-        for (auto cdes = fluidGrid[0][itx]->getCDESolvers().begin();
-             cdes != fluidGrid[0][itx]->getCDESolvers().end();
-             cdes++) {
-                (*cdes)->setDistribution(T, INFLUX / 5.0);
-                (*cdes)->setDistribution(E, INFLUX / 5.0);
-                (*cdes)->setDistribution(W, INFLUX / 5.0);
-                (*cdes)->setDistribution(S, INFLUX / 5.0);
-                (*cdes)->setDistribution(N, INFLUX / 5.0);
             }
         }
 
