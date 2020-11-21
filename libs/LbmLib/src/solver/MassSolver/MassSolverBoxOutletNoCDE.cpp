@@ -41,6 +41,11 @@ MassSolverBoxOutletNoCDE::MassSolverBoxOutletNoCDE() : BaseMassSolver()
 
 void MassSolverBoxOutletNoCDE::calculateMass(
         const std::vector<std::vector<nodes::PhysicalNode*> >& fluidGrid) {
+    // get domain size in Y
+    unsigned int LY = fluidGrid.size();
+    // get domain size in X
+    unsigned int LX = fluidGrid[0].size();
+
 
     // sink at x=0:
 #pragma omp parallel for schedule(dynamic)
@@ -49,11 +54,25 @@ void MassSolverBoxOutletNoCDE::calculateMass(
         fluidGrid[ity][0]->getFluidSolver().rescaleDistributions(scalingfactor); // rescale fluid mass
     }
 
+    // sink at x=LX:
+#pragma omp parallel for schedule(dynamic)
+    for (size_t ity = 0; ity < fluidGrid.size(); ity++) {
+        scalingfactor = 1.0/fluidGrid[ity][LX - 1]->getFluidSolver().getRho();
+        fluidGrid[ity][LX - 1]->getFluidSolver().rescaleDistributions(scalingfactor); // rescale fluid mass
+    }
+
     // sink at y=0:
 #pragma omp parallel for schedule(dynamic)
     for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
         scalingfactor = 1.0/fluidGrid[0][itx]->getFluidSolver().getRho();
         fluidGrid[0][itx]->getFluidSolver().rescaleDistributions(scalingfactor);
+    }
+
+    // sink at y=LY:
+#pragma omp parallel for schedule(dynamic)
+    for (size_t itx = 0; itx <fluidGrid[0].size(); itx++) {
+        scalingfactor = 1.0/fluidGrid[LY - 1][itx]->getFluidSolver().getRho();
+        fluidGrid[LY - 1][itx]->getFluidSolver().rescaleDistributions(scalingfactor);
     }
 }
 

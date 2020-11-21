@@ -138,7 +138,7 @@ int main(
         // constant influx of all cde from bottom y=0
         // no flux condition elsewhere
         simRunner.addMassSolver("MassSolverNoFluxXYCDED2Q5");
-        simRunner.addMassSolver("MassSolverBoxOutlet");
+        simRunner.addMassSolver("MassSolverBoxOutletNoCDE");
         // simRunner.addBioSolver("BioSolverAreaRegulator");
         simRunner.addBioSolver("BioSolverCellJunction");
         // simRunner.addBioSolver("BioSolverGrowth");

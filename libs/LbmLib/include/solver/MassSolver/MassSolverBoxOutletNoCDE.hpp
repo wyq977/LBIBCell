@@ -29,7 +29,11 @@
 namespace LbmLib {
 namespace solver {
 /**
- * @brief this solver introduces a constant local mass source to all domains with domainID!=0. Furthermore, it defines a mass ink at (x=0,y=y) and (x=x,y=0).
+ * @brief this solver introduces a constant local mass source to all domains with domainID!=0.
+ * Furthermore, it defines a mass ink at all four box boundary
+ * x=0, x=LX-1, y=0, y=LY-1
+ * Based on MassSolverBoxOutlet but remove the CDE solver 
+ * Boundary condition for CDESolver should be defined elsewhere
  */
 class MassSolverBoxOutletNoCDE : public BaseMassSolver<MassSolverBoxOutletNoCDE> {
  public:
