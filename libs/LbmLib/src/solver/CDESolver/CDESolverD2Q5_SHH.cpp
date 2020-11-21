@@ -100,7 +100,7 @@ const double CDESolverD2Q5_SHH::reaction() const
     if (this->physicalNode_->getCellType() == 2) {
         return SIGNAL_production;
     }
-    else if (this->physicalNode_->getCellType() == 1) {
+    else if (this->physicalNode_->getCellType() == 1 || this->physicalNode_->getCellType() == 2) {
         // exponetial turn-over on the other cell 
         // if just: - 0.00002, negative value will be seen, does not make sense
         return - TURNOVER * this->getC();
