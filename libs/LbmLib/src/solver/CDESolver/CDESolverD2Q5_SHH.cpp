@@ -38,8 +38,8 @@ namespace solver {
 namespace {
 const double deltaT = 1.0;  ///< the time step
 const double SIGNAL_decay = 0.0; ///< the decay rate of SIGNAL
-const double TURNOVER = 0.001; ///< Turn over rate of SHH
-const double SIGNAL_production = 0.0001; ///< the production rate of SIGNAL in the inital cell
+const double TURNOVER = 0.005; ///< Turn over rate of SHH
+const double SIGNAL_production = 0.01; ///< the production rate of SIGNAL in the inital cell
 const double SIGNAL_initalcondition = 0.0; ///< the inital concentration of SIGNAL
 }
 
