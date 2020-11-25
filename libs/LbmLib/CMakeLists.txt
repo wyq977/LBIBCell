@@ -83,6 +83,7 @@ set(LBMLIB_SRCS
         src/solver/MassSolver/MassSolverSingleGrowingCell.cpp
         src/solver/MassSolver/MassSolverBoxOutlet.cpp
         src/solver/MassSolver/MassSolverNoFluxXYCDED2Q5.cpp
+        src/solver/MassSolver/MassSolverInFluxCDED2Q5.cpp
         src/solver/MassSolver/MassSolverBoxOutletNoCDE.cpp
         
         src/solver/AbstractSolver.cpp
@@ -180,6 +181,7 @@ set(LBMLIB_HEADER
         include/solver/MassSolver/MassSolverFactory.hpp
         include/solver/MassSolver/MassSolverSingleGrowingCell.hpp
         include/solver/MassSolver/MassSolverNoFluxXYCDED2Q5.hpp
+        include/solver/MassSolver/MassSolverInFluxCDED2Q5.hpp
         include/solver/MassSolver/MassSolverBoxOutletNoCDE.hpp
 
         include/solver/AbstractSolver.hpp
