@@ -182,31 +182,31 @@ void MassSolverNoFluxXYCDED2Q5::calculateMass(
                 // E
                 feq = Cf * (1 + 3 * ux);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(E)) -
+                    (*nbcdes)->accessDistribution(E) -
                     (*nbcdes)->calculateEquilibrium(E);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(E, newDistribution);
+                (*cdes)->setDistribution(E, newDistribution);
                 // N
                 feq = Cf * (1 + 3 * uy);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(N)) -
+                    (*nbcdes)->accessDistribution(N) -
                     (*nbcdes)->calculateEquilibrium(N);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(N, newDistribution);
+                (*cdes)->setDistribution(N, newDistribution);
                 // W
                 feq = Cf * (1 - 3 * ux);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(W)) -
+                    (*nbcdes)->accessDistribution(W) -
                     (*nbcdes)->calculateEquilibrium(W);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(W, newDistribution);
+                (*cdes)->setDistribution(W, newDistribution);
                 // S
                 feq = Cf * (1 - 3 * uy);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(S)) -
+                    (*nbcdes)->accessDistribution(S) -
                     (*nbcdes)->calculateEquilibrium(S);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(S, newDistribution);
+                (*cdes)->setDistribution(S, newDistribution);
             }
         }
 
@@ -233,31 +233,31 @@ void MassSolverNoFluxXYCDED2Q5::calculateMass(
                 // E
                 feq = Cf * (1 + 3 * ux);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(E)) -
+                    (*nbcdes)->accessDistribution(E) -
                     (*nbcdes)->calculateEquilibrium(E);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(E, newDistribution);
+                (*cdes)->setDistribution(E, newDistribution);
                 // N
                 feq = Cf * (1 + 3 * uy);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(N)) -
+                    (*nbcdes)->accessDistribution(N) -
                     (*nbcdes)->calculateEquilibrium(N);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(N, newDistribution);
+                (*cdes)->setDistribution(N, newDistribution);
                 // W
                 feq = Cf * (1 - 3 * ux);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(W)) -
+                    (*nbcdes)->accessDistribution(W) -
                     (*nbcdes)->calculateEquilibrium(W);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(W, newDistribution);
+                (*cdes)->setDistribution(W, newDistribution);
                 // S
                 feq = Cf * (1 - 3 * uy);
                 fneq =
-                    (*nbcdes)->accessDistribution(getInverseDirection(S)) -
+                    (*nbcdes)->accessDistribution(S) -
                     (*nbcdes)->calculateEquilibrium(S);
                 newDistribution = feq + fneq;
-                (*nbcdes)->setDistribution(S, newDistribution);
+                (*cdes)->setDistribution(S, newDistribution);
             }
         }
 
